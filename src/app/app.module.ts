@@ -7,22 +7,23 @@ import { HttpClientModule } from "@angular/common/http";
 import { AppComponent } from "./app.component";
 import { FuncionarioDetalheComponent } from "./funcionario-detalhe/funcionario-detalhe.component";
 import { FuncionarioService } from "./funcionario.service";
-import { NavBarComponent } from "./nav-bar/nav-bar.component";
-import { NotFoundComponent } from "./not-found/not-found.component";
+import { NotFoundComponent } from "./core/components/not-found/not-found.component";
 
 import { CourseModule } from './course/course.module';
+import { CoreModule } from './core/core.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     FuncionarioDetalheComponent,
-    NavBarComponent,
+
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
     CourseModule,
+    CoreModule,
     RouterModule.forRoot([
       {
         path: "",
