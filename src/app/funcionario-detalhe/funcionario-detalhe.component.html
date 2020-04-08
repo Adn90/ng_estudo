@@ -1,0 +1,9 @@
+ <p>funcionario-detalhe works!</p>
+
+ <h1>funcionário Detalhe</h1>
+
+ <ul *ngIf="funcionarios">
+     <li *ngFor="let func of funcionarios; even as a">
+       {{a}}  {{ func.id }} - {{ func.nome }} - {{ func.idade }}
+     </li>
+ </ul>
