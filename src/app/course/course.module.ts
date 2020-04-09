@@ -4,7 +4,7 @@ import { RouterModule } from "@angular/router";
 
 import { CourseComponent } from "./course.component";
 import { CourseInfoComponent } from "./course-info/course-info.component";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { StarModule } from '../shared/components/star/star.module';
 import { PipeModule } from '../shared/pipe/pipe.module';
 
@@ -19,6 +19,7 @@ import { PipeModule } from '../shared/pipe/pipe.module';
     FormsModule,
     StarModule,
     PipeModule,
+    ReactiveFormsModule,
     RouterModule.forChild([
       {
         path: "courses",

@@ -16,7 +16,6 @@ import { CoreModule } from './core/core.module';
   declarations: [
     AppComponent,
     FuncionarioDetalheComponent,
-
   ],
   imports: [
     BrowserModule,
