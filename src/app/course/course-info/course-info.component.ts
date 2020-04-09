@@ -16,6 +16,8 @@ export class CourseInfoComponent implements OnInit {
 
   cadastro: FormGroup;
 
+  submitted: boolean = false;
+
   constructor(
     private fb: FormBuilder,
     private _activatedRoute: ActivatedRoute,
@@ -24,7 +26,7 @@ export class CourseInfoComponent implements OnInit {
 
   ngOnInit(): void {
     this.carregarDados();
-    this.createForm(new Course());
+    this.createForm();
   }
 
   save() {
@@ -32,6 +34,21 @@ export class CourseInfoComponent implements OnInit {
       next: (course) => console.log("saved", course),
       error: (err) => console.log("error", err),
     });
+  }
+
+  get f() { return this.cadastro.controls; }
+
+  save2(): void {
+    this.submitted = true;
+    if (this.cadastro.invalid) {
+      return;
+    }
+
+    console.log(JSON.stringify(this.cadastro.value, null, 4));
+  }
+
+  resetForm() {
+    this.cadastro.reset();
   }
 
   carregarDados() {
@@ -47,12 +64,12 @@ export class CourseInfoComponent implements OnInit {
       });
   }
 
-  createForm(course: Course) {
+  createForm() {
     this.cadastro = this.fb.group({
-      name: [course.name],
-      price: [course.price],
-      rating: [course.rating],
-      description: [course.description],
+      name: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(20)]],
+      price: [0, [Validators.required]],
+      rating: [0, [Validators.required, Validators.min(0), Validators.max(5)]],
+      description: ['', [Validators.required, Validators.minLength(20), Validators.maxLength(256)]],
     });
   }
 }
@@ -67,3 +84,14 @@ this.cadastro = this.fb.group({
    });
 
    */
+
+   /*
+    createForm(course: Course) {
+    this.cadastro = this.fb.group({
+      name: [course.name],
+      price: [course.price],
+      rating: [course.rating],
+      description: [course.description],
+    });
+  }
+  */

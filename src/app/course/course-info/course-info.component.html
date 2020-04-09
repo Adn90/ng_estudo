@@ -43,13 +43,17 @@
       <input
         [(ngModel)]="course.rating"
         name="rating"
+        id="rating"
         formControlName="rating"
         type="number"
         required
         class="form-control"
+        min="0"
+        max="5"
+        [ngClass]="{'is-invalid': submitted && f.rating.errors}"
       />
-      <div class="invalid-feedback">
-        <span>Course rating is required</span>
+      <div class="invalid-feedback" *ngIf="submitted && f.rating.errors">
+        <span *ngIf="f.rating.invalid && (f.rating.dirty || f.rating.touched)">Rating range is between 0 and 5</span>
       </div>
     </div>
   </div>
@@ -72,9 +76,9 @@
   </div>
 
   <button
-    (click)="save()"
+    (click)="save2()"
     class="btn btn-primary mr-2"
-    type="button"
+    type="submit"
   >Save</button>
   
   <button [routerLink]="['/courses']" class="btn btn-secondary" type="button">Back</button>
