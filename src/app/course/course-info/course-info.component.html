@@ -5,7 +5,7 @@
 
 <form *ngIf="course" [formGroup]="cadastro">
   <div class="form-group row">
-    <label class="col-sm-2 col-form-label">Name:</label>
+    <label class="col-sm-2 col-form-label">Name: *</label>
     <div class="col-sm-10">
       <input
         [(ngModel)]="course.name"
@@ -13,15 +13,20 @@
         formControlName="name"
         required    
         class="form-control"
+        type="text"
+        [ngClass]="{'is-invalid': f.name.errors}"
       />
-      <div class="invalid-feedback">
-        <span>Course name is required</span>
-      </div>
+      <!-- 
+        Utilizando o ValidarCamposService
+      -->
+        <div class="invalid-feedback" *ngIf="validarCampo.hasErrorValidar(f.name, 'required')">Campo obrigatório</div>
+        <div class="invalid-feedback" *ngIf="validarCampo.hasErrorValidar(f.name, 'minlength')">Mínimo de 8 caracteres</div>
+        <div class="invalid-feedback" *ngIf="validarCampo.hasErrorValidar(f.name, 'maxlength')">Máximo de 40 caracteres</div>    
     </div>
   </div>
 
   <div class="form-group row">
-    <label class="col-sm-2 col-form-label">Price:</label>
+    <label class="col-sm-2 col-form-label">Price: *</label>
     <div class="col-sm-10">
       <input
         [(ngModel)]="course.price"
@@ -30,15 +35,19 @@
         type="number"
         required
         class="form-control"
+        [ngClass]="{'is-invalid': f.price.errors}"
       />
-      <div class="invalid-feedback">
-        <span>Course price is required</span>
+      <!-- 
+        Utilizando no hardCode
+      -->
+      <div class="invalid-feedback" *ngIf="(cadastro.dirty || cadastro.touched) && f.price.errors?.required">
+        Campo Obrigatório
       </div>
     </div>
   </div>
 
   <div class="form-group row">
-    <label class="col-sm-2 col-form-label">Rating:</label>
+    <label class="col-sm-2 col-form-label">Rating: *</label>
     <div class="col-sm-10">
       <input
         [(ngModel)]="course.rating"
@@ -50,16 +59,19 @@
         class="form-control"
         min="0"
         max="5"
-        [ngClass]="{'is-invalid': submitted && f.rating.errors}"
+        [ngClass]="{'is-invalid': f.rating.errors}"
       />
-      <div class="invalid-feedback" *ngIf="submitted && f.rating.errors">
-        <span *ngIf="f.rating.invalid && (f.rating.dirty || f.rating.touched)">Rating range is between 0 and 5</span>
+      <div class="invalid-feedback" *ngIf="validarCampo.hasErrorValidar(f.rating, 'required')">
+        Campo Obrigatório
+      </div>
+      <div class="invalid-feedback" *ngIf="validarCampo.hasErrorValidar(f.rating, 'min') || validarCampo.hasErrorValidar(f.rating, 'max')">
+        São aceitas apenas notas de 0 à 5
       </div>
     </div>
   </div>
 
   <div class="form-group row">
-    <label class="col-sm-2 col-form-label">Description:</label>
+    <label class="col-sm-2 col-form-label">Description: *</label>
     <div class="col-sm-10">
       <textarea
         [(ngModel)]="course.description"
@@ -67,16 +79,18 @@
         name="description"
         formControlName="description"
         class="form-control"
+        [ngClass]="{'is-invalid': f.description.errors}"
       ></textarea>
-
-      <div class="invalid-feedback">
-        <span>Course description is required</span>
+      <div class="invalid-feedback" *ngIf="(cadastro.dirty || cadastro.touched) && f.description.errors">
+        <p *ngIf="f.description.errors.required">Campo obrigatório</p>
+        <p *ngIf="f.description.errors.minlength">Mínimo de 20 caracteres</p>
+        <p *ngIf="f.description.errors.maxlength">Máximo de 256 caracteres</p>
       </div>
     </div>
   </div>
 
   <button
-    (click)="save2()"
+    (click)="save()"
     class="btn btn-primary mr-2"
     type="submit"
   >Save</button>

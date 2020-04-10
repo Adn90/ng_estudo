@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
 import { Course } from "../course";
 import { CourseService } from "../servico/course.service";
+import { ValidarCamposService } from '../servico/validar-campos.service';
 
 @Component({
   selector: "app-course-info",
@@ -18,37 +19,19 @@ export class CourseInfoComponent implements OnInit {
 
   submitted: boolean = false;
 
+  // _validarCampo é public, pois vai ser utilizado no html
   constructor(
     private fb: FormBuilder,
     private _activatedRoute: ActivatedRoute,
-    private _courseService: CourseService
+    private _courseService: CourseService,
+    public validarCampo: ValidarCamposService,
   ) {}
+
+  get f() { return this.cadastro.controls; }
 
   ngOnInit(): void {
     this.carregarDados();
     this.createForm();
-  }
-
-  save() {
-    this._courseService.save(this.course).subscribe({
-      next: (course) => console.log("saved", course),
-      error: (err) => console.log("error", err),
-    });
-  }
-
-  get f() { return this.cadastro.controls; }
-
-  save2(): void {
-    this.submitted = true;
-    if (this.cadastro.invalid) {
-      return;
-    }
-
-    console.log(JSON.stringify(this.cadastro.value, null, 4));
-  }
-
-  resetForm() {
-    this.cadastro.reset();
   }
 
   carregarDados() {
@@ -64,34 +47,41 @@ export class CourseInfoComponent implements OnInit {
       });
   }
 
+  save() {
+    this.cadastro.markAllAsTouched();
+    this.submitted = true;
+    if (this.cadastro.invalid) {
+      return;
+    }
+    this._courseService.save(this.course).subscribe({
+      next: (course) => console.log("saved", course),
+      error: (err) => console.log("error", err),
+    });
+  }
+
+
+  resetForm() {
+    this.cadastro.reset();
+  }
+
+
   createForm() {
     this.cadastro = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(20)]],
+      name: ['this.course.name', [Validators.required, Validators.minLength(8), Validators.maxLength(40)]],
       price: [0, [Validators.required]],
       rating: [0, [Validators.required, Validators.min(0), Validators.max(5)]],
-      description: ['', [Validators.required, Validators.minLength(20), Validators.maxLength(256)]],
+      description: ['this.course.description', [Validators.required, Validators.minLength(20), Validators.maxLength(256)]],
     });
   }
 }
 
 /*
-
 this.cadastro = this.fb.group({
-    name: ['', Validators.required, Validators.minLength(5), Validators.maxLength(25)],
-    price: [1, Validators.required, Validators.min(1)],
-    rating: [0, Validators.required, Validators.min(0), Validators.max(5)],
-    description: ['']
-   });
+  name: ['', Validators.required, Validators.minLength(5), Validators.maxLength(25)],
+  price: [1, Validators.required, Validators.min(1)],
+  rating: [0, Validators.required, Validators.min(0), Validators.max(5)],
+  description: ['']
+});
+*/
 
-   */
-
-   /*
-    createForm(course: Course) {
-    this.cadastro = this.fb.group({
-      name: [course.name],
-      price: [course.price],
-      rating: [course.rating],
-      description: [course.description],
-    });
-  }
-  */
+  
