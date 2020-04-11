@@ -1,99 +1,35 @@
 <div class="container">
-<h2>Course Info</h2>
+  <h2>Course Info</h2>
 
-<hr />
+  <hr />
 
-<form *ngIf="course" [formGroup]="cadastro">
-  <div class="form-group row">
-    <label class="col-sm-2 col-form-label">Name: *</label>
-    <div class="col-sm-10">
-      <input
-        [(ngModel)]="course.name"
-        name="name"
-        formControlName="name"
-        required    
-        class="form-control"
-        type="text"
-        [ngClass]="{'is-invalid': f.name.errors}"
-      />
-      <!-- 
-        Utilizando o ValidarCamposService
-      -->
-        <div class="invalid-feedback" *ngIf="validarCampo.hasErrorValidar(f.name, 'required')">Campo obrigatório</div>
-        <div class="invalid-feedback" *ngIf="validarCampo.hasErrorValidar(f.name, 'minlength')">Mínimo de 8 caracteres</div>
-        <div class="invalid-feedback" *ngIf="validarCampo.hasErrorValidar(f.name, 'maxlength')">Máximo de 40 caracteres</div>    
-    </div>
-  </div>
+  <form *ngIf="course" [formGroup]="cadastro" autocomplete="off" novalidate>
+    <!-- controlName vai sem databind, pois não é uma variável ou objeto. Aqui só vai a string-->
+    <app-input-text [formGroup]="cadastro" controlName="name"></app-input-text>
 
-  <div class="form-group row">
-    <label class="col-sm-2 col-form-label">Price: *</label>
-    <div class="col-sm-10">
-      <input
-        [(ngModel)]="course.price"
-        name="price"
-        formControlName="price"
-        type="number"
-        required
-        class="form-control"
-        [ngClass]="{'is-invalid': f.price.errors}"
-      />
-      <!-- 
-        Utilizando no hardCode
-      -->
-      <div class="invalid-feedback" *ngIf="(cadastro.dirty || cadastro.touched) && f.price.errors?.required">
-        Campo Obrigatório
-      </div>
-    </div>
-  </div>
+    <app-input-number
+      [formGroup]="cadastro"
+      controlName="price"
+      step="1"
+    ></app-input-number>
 
-  <div class="form-group row">
-    <label class="col-sm-2 col-form-label">Rating: *</label>
-    <div class="col-sm-10">
-      <input
-        [(ngModel)]="course.rating"
-        name="rating"
-        id="rating"
-        formControlName="rating"
-        type="number"
-        required
-        class="form-control"
-        min="0"
-        max="5"
-        [ngClass]="{'is-invalid': f.rating.errors}"
-      />
-      <div class="invalid-feedback" *ngIf="validarCampo.hasErrorValidar(f.rating, 'required')">
-        Campo Obrigatório
-      </div>
-      <div class="invalid-feedback" *ngIf="validarCampo.hasErrorValidar(f.rating, 'min') || validarCampo.hasErrorValidar(f.rating, 'max')">
-        São aceitas apenas notas de 0 à 5
-      </div>
-    </div>
-  </div>
+    <app-input-number
+      [formGroup]="cadastro"
+      controlName="rating"
+      step="0.5"
+    ></app-input-number>
 
-  <div class="form-group row">
-    <label class="col-sm-2 col-form-label">Description: *</label>
-    <div class="col-sm-10">
-      <textarea
-        [(ngModel)]="course.description"
-        required
-        name="description"
-        formControlName="description"
-        class="form-control"
-        [ngClass]="{'is-invalid': f.description.errors}"
-      ></textarea>
-      <div class="invalid-feedback" *ngIf="(cadastro.dirty || cadastro.touched) && f.description.errors">
-        <p *ngIf="f.description.errors.required">Campo obrigatório</p>
-        <p *ngIf="f.description.errors.minlength">Mínimo de 20 caracteres</p>
-        <p *ngIf="f.description.errors.maxlength">Máximo de 256 caracteres</p>
-      </div>
-    </div>
-  </div>
+    <app-input-textarea
+      [formGroup]="cadastro"
+      controlName="description"
+    ></app-input-textarea>
 
-  <button
-    (click)="save()"
-    class="btn btn-primary mr-2"
-    type="submit"
-  >Save</button>
-  
-  <button [routerLink]="['/courses']" class="btn btn-secondary" type="button">Back</button>
-</form>
+    <button (click)="save()" class="btn btn-primary mr-2" type="submit">
+      Save
+    </button>
+
+    <button [routerLink]="['/courses']" class="btn btn-secondary" type="button">
+      Back
+    </button>
+  </form>
+</div>

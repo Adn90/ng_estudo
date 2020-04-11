@@ -18,8 +18,15 @@ export class ValidarCamposService {
       this.hasError(control, errorName)
     ) {
       return true;
-    }
+    } 
 
     return false;
+  }
+
+  lengthValidar(control: AbstractControl, errorName: string): number {
+    // aqui, error guarda o qual é o erro, se é required, min, minLength etc
+    const error = control.errors[errorName];
+
+    return error.requiredLength || error.min || error.max || 0;
   }
 }
