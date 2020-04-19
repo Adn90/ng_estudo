@@ -1,9 +1,141 @@
- <p>funcionario-detalhe works!</p>
+<!-- 
+<h1>funcionário Detalhe</h1>
+<ul *ngIf="funcionarios">
+  <li *ngFor="let func of funcionarios; even as a">
+    {{ a }} {{ func.id }} - {{ func.nome }} - {{ func.idade }}
+  </li>
+</ul>
+-->
 
- <h1>funcionário Detalhe</h1>
+<!-- 
+<section>
+  <article>
+    <h3>Interpolação</h3>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      <a href="">{{ url }}</a>
+    </p>
+    <p>1+1 != de {{ 1 + 1 + getValor() }}</p>
+    <p>curtir curso: {{ true && getCurtirCurso() }}</p>
+  </article>
 
- <ul *ngIf="funcionarios">
-     <li *ngFor="let func of funcionarios; even as a">
-       {{a}}  {{ func.id }} - {{ func.nome }} - {{ func.idade }}
-     </li>
- </ul>
+  <article>
+    <h3>Property Bind</h3>
+    <img [src]="urlImg" alt="">
+  </article>
+</section>
+-->
+
+<!-- 
+<section>
+  <article>
+    <h3>Class & Style Bind</h3>
+    <div class="form-group">
+      <label for="" class="control-label">Selecione uma classe</label>
+      <br />
+      <select #classe (change)="(0)">
+        <option value="null">Selecione</option>
+        <option value="alert-success">Sucesso</option>
+        <option value="alert-info">Info</option>
+        <option value="alert-warning">Alerta</option>
+        <option value="alert-danger">Erro</option>
+      </select>
+
+      <div class="alert {{ classe.value }} mt-2" role="alert">
+        Texto com a classe da combobox
+      </div>
+
+      <br /><br />
+      <div
+        class="alert"
+        role="alert"
+        [class.alert-success]="classe.value == 'alert-success'"
+      >
+        Sucesso
+      </div>
+      <div class="alert" role="alert" [class.alert-info]="classe.value == 'alert-info'">Info</div>
+      <div class="alert" role="alert" [class.alert-warning]="classe.value == 'alert-warning'">alerta</div>
+      <div class="alert" role="alert" [class.alert-danger]="classe.value == 'alert-danger'">Erro</div>
+
+      <div class="alert" role="alert" [style.display]="classe.value == 'alert-danger' ? 'block' : 'none'">Texto aparece com erro selecionado</div>
+    </div>
+  </article>
+</section>
+-->
+
+<!-- 
+<div class="container">
+  <section>
+    <article>
+      <h3>Event Bind</h3>
+      <button class="btn-info btn mt-1 mb-3" (click)="clique()">Clique</button>
+      <br />
+      <input
+        type="text"
+        (keyup)="onKeyUp($event)"
+        (keyup.enter)="salvarValor($event.target.value)"
+        (blur)="salvarValor(campoInput.value)"
+        #campoInput
+      />
+
+      <p>valorAtual: {{ valorAtual }}</p>
+      <p>valorSalvo: {{ valorSalvo }}</p>
+    </article>
+
+    <article>
+      <span
+        class="btn-warning btn"
+        (mouseover)="mouseOver()"
+        (mouseout)="mouseOver()"
+        [class.highlight]="isMouseOver"
+      >
+        passe o mourse
+      </span>
+    </article>
+  </section>
+</div>
+-->
+
+<!--
+<div class="container">
+  <section>
+    <article>
+      <h3>Two Way Data-bind</h3>
+      <input type="text" [value]="nome" (input)="nome = $event.target.value" class="form-control">
+      <br>
+      <input type="text" [ngModel]="nome" (ngModelChange)="nome = $event" class="form-control">
+      <br>
+      <input type="text" [(ngModel)]="nome" class="form-control">
+      <p>Você digitou: {{ nome }}</p>
+    </article>
+
+    <article>
+      <div>
+        <input type="text" [(ngModel)]="pessoa.nome" class="mr-2">
+        <input type="number" [(ngModel)]="pessoa.idade">
+      </div>
+      <p>Nome: {{ pessoa.nome }} / idade: {{ pessoa.idade }}</p>
+    </article>
+  </section>
+</div>
+-->
+
+<div class="container">
+  <section>
+    <article>
+      <h3>@Input</h3>
+      <app-func
+        [nome]="nomeDoCurso"
+        [valor]="valorInicial"
+        (mudouValor)="OnMudouValor($event)"
+        [valorInicial]="valor"
+        *ngIf="!deletarCiclo"
+      ></app-func>
+    </article>
+  </section>
+</div>
+
+
+<button type="button" (click)="mudarValor()">Mudar valor</button>
+<button type="button" (click)="destruirCiclo()">Destruir Ciclo</button>
+<!-- evento emitido no componente filho, precisa do eventbind para funcionar -->

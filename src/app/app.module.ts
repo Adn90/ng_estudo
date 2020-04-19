@@ -11,11 +11,13 @@ import { NotFoundComponent } from "./core/components/not-found/not-found.compone
 
 import { CourseModule } from './course/course.module';
 import { CoreModule } from './core/core.module';
+import { FuncComponent } from './funcionario-detalhe/func/func.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FuncionarioDetalheComponent,
+    FuncComponent,
   ],
   imports: [
     BrowserModule,
